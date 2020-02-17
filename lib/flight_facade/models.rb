@@ -36,7 +36,7 @@ module FlightFacade
         include ActiveModel::Validations
 
         def self.method_added(m)
-          module_parent.delegate(m, to: :data)
+          parent.delegate(m, to: :data)
         end
       end
 
