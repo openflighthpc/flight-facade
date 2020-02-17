@@ -40,7 +40,7 @@ module FlightFacade
 
         class_methods do
           def method_added(m)
-            self.module_parent.eigen_class.delegate(m, to: :facade_instance)
+            self.parent.eigen_class.delegate(m, to: :facade_instance)
           end
         end
       end
