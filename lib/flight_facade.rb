@@ -26,6 +26,8 @@
 #===============================================================================
 
 require "flight_facade/version"
+require 'flight_facade/models'
+
 require 'active_support/concern'
 require 'active_support/core_ext/module/delegation'
 require 'active_support/core_ext/hash'

@@ -25,34 +25,47 @@
 # https://github.com/openflighthpc/flight_facade
 #===============================================================================
 
-lib = File.expand_path("lib", __dir__)
-$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require "flight_facade/version"
+require 'hashie'
+require 'active_model'
 
-Gem::Specification.new do |spec|
-  spec.name          = "flight_facade"
-  spec.version       = FlightFacade::VERSION
-  spec.authors       = ["Alces Flight Ltd"]
-  spec.email         = ["flight@openflighthpc.org"]
+module FlightFacade
+  class BaseHashieDashModel
+    def self.inherited(klass)
+      data_class = Class.new(Hashie::Dash) do
+        include Hashie::Extensions::IgnoreUndeclared
+        include ActiveModel::Validations
 
-  spec.summary       = "Provides a colletion of interfaces to cluster concepts"
-  spec.homepage      = "https://github.com/openflighthpc/flight_facade"
-  spec.license       = 'EPL-2.0'
+        def self.method_added(m)
+          parent.delegate(m, to: :data)
+        end
+      end
 
-  spec.metadata["homepage_uri"] = spec.homepage
+      klass.const_set('DataHash', data_class)
+      klass.delegate(*(ActiveModel::Validations.instance_methods - Object.methods), to: :data)
+    end
 
-  spec.files         = Dir.chdir(File.expand_path('..', __FILE__)) do
-    `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
+    attr_reader :data
+
+    def initialize(*a)
+      @data = self.class::DataHash.new(*a)
+    end
   end
-  spec.bindir        = "bin"
-  spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
-  spec.require_paths = ["lib"]
 
-  spec.add_runtime_dependency "activesupport"
-  spec.add_runtime_dependency 'activemodel'
-  spec.add_runtime_dependency "hashie"
+  class Node < BaseHashieDashModel
+    DataHash.class_exec do
+      include Hashie::Extensions::Dash::PropertyTranslation
 
-  spec.add_development_dependency "bundler", "~> 2.0"
-  spec.add_development_dependency "rake", "~> 10.0"
-  spec.add_development_dependency "rspec", "~> 3.0"
+      property :name,   required: true
+      property :params, required: true
+      property :ranks,  default: [], transform_with: ->(v) { (v.dup << 'default').uniq }
+    end
+  end
+
+  class Group < BaseHashieDashModel
+    DataHash.class_exec do
+      property  :name,  required: true
+      property  :nodes, default: []
+    end
+  end
 end
+
