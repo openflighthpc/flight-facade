@@ -36,13 +36,24 @@ module FlightFacade
 
     included do
       module self::Base
+        extend ActiveSupport::Concern
+
+        class_methods do
+          def method_added(m)
+            self.module_parent.eigen_class.delegate(m, to: :facade_instance)
+          end
+        end
       end
     end
 
     class_methods do
-      delegate_missing_to :facade_instance
-
       attr_writer :facade_instance
+
+      def eigen_class
+        class << self
+          return self
+        end
+      end
 
       def facade_instance
         @facade_instance || raise(NotImplementedError)
