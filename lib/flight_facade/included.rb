@@ -25,6 +25,6 @@
 # https://github.com/openflighthpc/flight_facade
 #===============================================================================
 
-module FlightFacade
-  VERSION = "0.1.3"
-end
+require 'flight_facade'
+include FlightFacade
+
