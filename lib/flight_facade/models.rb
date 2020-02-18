@@ -44,6 +44,14 @@ module FlightFacade
       klass.delegate(*(ActiveModel::Validations.instance_methods - Object.methods), to: :data)
     end
 
+    def self._jsonapi_serializer_class_name
+      @jsonapi_serializer_class_name ||= self.class.name.split('::').last + 'Serializer'
+    end
+
+    def self._type
+      @type ||= self.class.name.split('::').last.demodulize.tableize.dasherize
+    end
+
     attr_reader :data
 
     def initialize(*a)
@@ -51,11 +59,11 @@ module FlightFacade
     end
 
     def jsonapi_serializer_class_name
-      self.class.name.split('::').last
+      self.class._jsonapi_serializer_class_name
     end
 
     def type
-      jsonapi_serializer_class_name.demodulize.tableize.dasherize
+      self.class._type
     end
   end
 
