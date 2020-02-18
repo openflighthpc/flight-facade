@@ -45,11 +45,11 @@ module FlightFacade
     end
 
     def self._jsonapi_serializer_class_name
-      @jsonapi_serializer_class_name ||= name.split('::').last + 'Serializer'
+      @_jsonapi_serializer_class_name ||= name.split('::').last + 'Serializer'
     end
 
     def self._type
-      @type ||= name.split('::').last.demodulize.tableize.dasherize
+      @_type ||= name.split('::').last.demodulize.tableize.dasherize
     end
 
     attr_reader :data
