@@ -50,6 +50,7 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency "activesupport"
   spec.add_runtime_dependency 'activemodel'
   spec.add_runtime_dependency "hashie"
+  spec.add_runtime_dependency 'jsonapi-serializers', '~> 1.0'
 
   spec.add_development_dependency "bundler", "~> 2.0"
   spec.add_development_dependency "rake", "~> 10.0"

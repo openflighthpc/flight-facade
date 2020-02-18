@@ -49,6 +49,14 @@ module FlightFacade
     def initialize(*a)
       @data = self.class::DataHash.new(*a)
     end
+
+    def jsonapi_serializer_class_name
+      self.class.name.split('::').last
+    end
+
+    def type
+      jsonapi_serializer_class_name.demodulize.tableize.dasherize
+    end
   end
 
   class Node < BaseHashieDashModel
