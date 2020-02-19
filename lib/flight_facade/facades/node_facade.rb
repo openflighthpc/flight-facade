@@ -25,7 +25,51 @@
 # https://github.com/openflighthpc/flight_facade
 #===============================================================================
 
-require 'flight_facade/has_facade'
-require 'flight_facade/facades/group_facade'
-require 'flight_facade/facades/node_facade'
+require 'hashie'
+
+module FlightFacade
+  module NodeFacade
+    include HasFacade
+
+    module Base
+      # Query for a Node object by its name alone
+      # @param name [String] the name of the node
+      # @return [Node, nil] the node object or nil if it could not resolve the name
+      def find_by_name(name)
+        raise NotImplementedError
+      end
+
+      # Query for all the available nodes
+      # @return [Array<Node>] the list of nodes
+      def index_all
+        raise NotImplementedError
+      end
+    end
+
+    define_facade('Dummy')
+
+    define_facade('Standalone', Hash) do
+      include Hashie::Extensions::MergeInitializer
+      include Hashie::Extensions::IndifferentAccess
+
+      def initialize(*_)
+        super
+        delete('__meta__')
+      end
+
+      def find_by_name(input)
+        name = input.to_s
+        return nil unless key?(name)
+        data = self[name].symbolize_keys
+        ranks = data[:ranks] || []
+        params = data.reject { |k, _| k == :ranks }
+        Node.new(name: name, params: params, ranks: ranks)
+      end
+
+      def index_all
+        keys.map { |k| find_by_name(k) }
+      end
+    end
+  end
+end
 

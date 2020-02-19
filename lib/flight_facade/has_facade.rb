@@ -25,7 +25,46 @@
 # https://github.com/openflighthpc/flight_facade
 #===============================================================================
 
-require 'flight_facade/has_facade'
-require 'flight_facade/facades/group_facade'
-require 'flight_facade/facades/node_facade'
+require 'active_support/concern'
+require 'active_support/core_ext/module/delegation'
+require 'active_support/core_ext/hash'
+
+module FlightFacade
+  module HasFacade
+    extend ActiveSupport::Concern
+
+    included do
+      module self::Base
+        extend ActiveSupport::Concern
+
+        class_methods do
+          def method_added(m)
+            self.parent.eigen_class.delegate(m, to: :facade_instance)
+          end
+        end
+      end
+    end
+
+    class_methods do
+      attr_writer :facade_instance
+
+      def eigen_class
+        class << self
+          return self
+        end
+      end
+
+      def facade_instance
+        @facade_instance || raise(NotImplementedError)
+      end
+
+      def define_facade(name, super_class = Object, &b)
+        klass = Class.new(super_class)
+        self.const_set(name, klass)
+        klass.include(self::Base)
+        klass.class_exec(&b) if b
+      end
+    end
+  end
+end
 
