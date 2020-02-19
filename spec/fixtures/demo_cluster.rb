@@ -25,9 +25,14 @@
 # https://github.com/openflighthpc/flight_facade
 #===============================================================================
 
-require "flight_facade/version"
-
-require 'flight_facade/models'
-require 'flight_facade/records'
-require 'flight_facade/facades'
+module FlightFacade
+  module DemoCluster
+    def self.nodes_data
+      {
+        single1: {},
+        single2: {}
+      }
+    end
+  end
+end
 

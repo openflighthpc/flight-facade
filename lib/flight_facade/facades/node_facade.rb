@@ -70,6 +70,14 @@ module FlightFacade
         keys.map { |k| find_by_name(k) }
       end
     end
+
+    define_facade('Upstream') do
+      attr_reader :connection
+
+      def initializer(conn)
+        @connection = conn
+      end
+    end
   end
 end
 

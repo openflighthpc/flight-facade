@@ -51,6 +51,9 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'activemodel'
   spec.add_runtime_dependency "hashie"
   spec.add_runtime_dependency 'jsonapi-serializers', '~> 1.0'
+  spec.add_runtime_dependency 'simple_jsonapi_client', '~> 0.2.4'
+  spec.add_runtime_dependency 'faraday', '~> 0.12'
+  spec.add_runtime_dependency 'faraday_middleware', '~> 0.11'
 
   spec.add_development_dependency "bundler", "~> 2.0"
   spec.add_development_dependency "rake", "~> 10.0"
