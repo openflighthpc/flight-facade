@@ -58,6 +58,10 @@ module FlightFacade
 
     has_many  :groups, class_name: 'FlightFacade::GroupsRecord'
     has_one   :cluster, class_name: 'FlightFacade::ClustersRecord'
+
+    def to_model
+      Node.new(name: name, params: params.reject { |k, _| k[0] == '_' })
+    end
   end
 
   class GroupsRecord < BaseRecord

@@ -78,9 +78,12 @@ module FlightFacade
 
       def index_all
         NodesRecord.fetch_all(connection: connection, url: "/clusters/.#{cluster}/nodes")
-                   .map do |node|
-          Node.new(name: node.name, params: node.params.reject { |k, _| k[0] == '_' })
-        end
+                   .map(&:to_model)
+      end
+
+      def find_by_name(name)
+        NodesRecord.fetch(connection: connection, url_opts: { id: "#{cluster}.#{name}" })
+                   .to_model
       end
     end
   end
