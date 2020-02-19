@@ -29,8 +29,14 @@ module FlightFacade
   module DemoCluster
     def self.nodes_data
       {
-        single1: {},
-        single2: {}
+        'single1' => {},
+        'single2' => {},
+        'param_test' => {
+          params: {
+            'key1' => 'value1',
+            'key2' => 'value2'
+          }
+        }
       }
     end
   end

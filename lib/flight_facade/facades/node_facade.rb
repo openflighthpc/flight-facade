@@ -40,6 +40,7 @@ module FlightFacade
       end
 
       # Query for all the available nodes
+      # It MAY not return the associated groups
       # @return [Array<Node>] the list of nodes
       def index_all
         raise NotImplementedError
@@ -71,11 +72,15 @@ module FlightFacade
       end
     end
 
-    define_facade('Upstream') do
-      attr_reader :connection
+    define_facade('Upstream', Hashie::Dash) do
+      property :connection, requried: true
+      property :cluster,    required: true
 
-      def initializer(conn)
-        @connection = conn
+      def index_all
+        NodesRecord.fetch_all(connection: connection, url: "/clusters/.#{cluster}/nodes")
+                   .map do |node|
+          Node.new(name: node.name, params: node.params)
+        end
       end
     end
   end

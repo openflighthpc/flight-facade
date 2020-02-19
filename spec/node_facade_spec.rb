@@ -28,6 +28,7 @@
 #===============================================================================
 
 require 'spec_helper'
+require_relative 'fixtures/demo_cluster'
 
 RSpec.describe NodeFacade::Standalone do
   it 'strips the __meta__ key from its list' do
@@ -118,6 +119,36 @@ RSpec.describe NodeFacade do
 
       it 'returns the correctly named nodes' do
         expect(subject.map(&:name)).to contain_exactly(*nodes_data.keys.map(&:to_s))
+      end
+    end
+  end
+
+  context 'when in upstream mode' do
+    around do |e|
+      with_facade_dummies do
+        token = ENV['SPEC_JWT'] || ''
+        connection = FlightFacade::BaseRecord.build_connection('http://localhost:6301', token)
+
+        described_class.facade_instance = \
+          described_class::Upstream.new(connection: connection, cluster: 'test')
+
+        e.call
+      end
+    end
+
+    let(:demo_nodes) { FlightFacade::DemoCluster.nodes_data }
+
+    describe '::index_all' do
+      it 'finds all the demo nodes' do
+        nodes = described_class.index_all
+        expect(nodes.map(&:name)).to contain_exactly(*demo_nodes.keys)
+      end
+
+      it 'correctly sets teh parameters' do
+        name = 'param_test'
+        params = demo_nodes[name][:params]
+        node = described_class.index_all.find { |n| n.name == name }
+        expect(node.params).to match(params)
       end
     end
   end

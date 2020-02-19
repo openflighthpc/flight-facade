@@ -54,19 +54,21 @@ module FlightFacade
   end
 
   class NodesRecord < BaseRecord
-    attributes :name, :params
+    attributes :name, :params, :level_params
 
     has_many  :groups, class_name: 'FlightFacade::GroupsRecord'
     has_one   :cluster, class_name: 'FlightFacade::ClustersRecord'
   end
 
   class GroupsRecord < BaseRecord
+    attributes :name, :params, :level_params
+
     has_many  :nodes, class_name: 'FlightFacade::NodesRecord'
     has_one   :cluster, class_name: 'FlightFacade::ClustersRecord'
   end
 
   class ClustersRecord < BaseRecord
-    attributes :name
+    attributes :name, :params, :level_params
 
     has_many  :groups, class_name: 'FlightFacade::GroupsRecord'
     has_many  :nodes, class_name: 'FlightFacade::NodesRecord'

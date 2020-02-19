@@ -53,8 +53,11 @@ task :'nodeattr:setup', [:url, :token] do |_, args|
 
   cluster = FlightFacade::ClustersRecord.create(connection: conn, name: 'test')
 
-  FlightFacade::DemoCluster.nodes_data.each do |name, _|
-    FlightFacade::NodesRecord.create(connection: conn, name: name, cluster: cluster)
+  FlightFacade::DemoCluster.nodes_data.each do |name, attr|
+    FlightFacade::NodesRecord.create(connection: conn,
+                                     name: name,
+                                     cluster: cluster,
+                                     level_params: attr[:params] || {})
   end
 end
 

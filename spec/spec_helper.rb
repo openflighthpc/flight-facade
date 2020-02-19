@@ -57,3 +57,4 @@ RSpec.configure do |config|
     old_facades.each { |c, o| c.facade_instance = o }
   end
 end
+
