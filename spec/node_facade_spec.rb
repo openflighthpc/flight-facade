@@ -139,16 +139,23 @@ RSpec.describe NodeFacade do
     let(:demo_nodes) { FlightFacade::DemoCluster.nodes_data }
 
     describe '::index_all' do
+      let(:nodes) { described_class.index_all }
+      let(:param_test_node) { nodes.find { |n| n.name == 'param_test' } }
+      let(:underscore_param_test_node) do
+        nodes.find { |n| n.name == 'underscore_param_test' }
+      end
+
       it 'finds all the demo nodes' do
-        nodes = described_class.index_all
         expect(nodes.map(&:name)).to contain_exactly(*demo_nodes.keys)
       end
 
-      it 'correctly sets teh parameters' do
-        name = 'param_test'
-        params = demo_nodes[name][:params]
-        node = described_class.index_all.find { |n| n.name == name }
-        expect(node.params).to match(params)
+      it 'correctly sets the params' do
+        expect(param_test_node.params).to match(demo_nodes['param_test'][:params])
+      end
+
+      it 'removes underscored params' do
+        expect(underscore_param_test_node.params).to be_a(Hash)
+        expect(underscore_param_test_node.params).to be_empty
       end
     end
   end

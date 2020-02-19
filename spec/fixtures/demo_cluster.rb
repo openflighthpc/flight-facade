@@ -36,6 +36,11 @@ module FlightFacade
             'key1' => 'value1',
             'key2' => 'value2'
           }
+        },
+        'underscore_param_test' => {
+          params: {
+            '_underscored_key': 'this key should be removed'
+          }
         }
       }
     end

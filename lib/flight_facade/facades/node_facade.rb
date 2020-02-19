@@ -79,7 +79,7 @@ module FlightFacade
       def index_all
         NodesRecord.fetch_all(connection: connection, url: "/clusters/.#{cluster}/nodes")
                    .map do |node|
-          Node.new(name: node.name, params: node.params)
+          Node.new(name: node.name, params: node.params.reject { |k, _| k[0] == '_' })
         end
       end
     end
