@@ -25,7 +25,7 @@ http_interactions:
       Content-Type:
       - application/vnd.api+json
       Content-Length:
-      - '3784'
+      - '4676'
     body:
       encoding: UTF-8
       string: |-
@@ -33,71 +33,103 @@ http_interactions:
           "data": [
             {
               "type": "nodes",
-              "id": "5e4d8f04e138231a166e48e6",
+              "id": "5e4e6bf1e138231a166e4917",
               "attributes": {
-                "name": "single1",
+                "name": "single",
                 "params": {
                 }
               },
               "links": {
-                "self": "/nodes/5e4d8f04e138231a166e48e6"
+                "self": "/nodes/5e4e6bf1e138231a166e4917"
               },
               "relationships": {
                 "cluster": {
                   "links": {
-                    "self": "/nodes/5e4d8f04e138231a166e48e6/relationships/cluster",
-                    "related": "/nodes/5e4d8f04e138231a166e48e6/cluster"
+                    "self": "/nodes/5e4e6bf1e138231a166e4917/relationships/cluster",
+                    "related": "/nodes/5e4e6bf1e138231a166e4917/cluster"
                   }
                 },
                 "groups": {
                   "links": {
-                    "self": "/nodes/5e4d8f04e138231a166e48e6/relationships/groups",
-                    "related": "/nodes/5e4d8f04e138231a166e48e6/groups"
+                    "self": "/nodes/5e4e6bf1e138231a166e4917/relationships/groups",
+                    "related": "/nodes/5e4e6bf1e138231a166e4917/groups"
                   }
                 },
                 "cascades": {
                   "links": {
-                    "self": "/nodes/5e4d8f04e138231a166e48e6/relationships/cascades",
-                    "related": "/nodes/5e4d8f04e138231a166e48e6/cascades"
+                    "self": "/nodes/5e4e6bf1e138231a166e4917/relationships/cascades",
+                    "related": "/nodes/5e4e6bf1e138231a166e4917/cascades"
                   }
                 }
               }
             },
             {
               "type": "nodes",
-              "id": "5e4d8f04e138231a166e48e7",
+              "id": "5e4e6bf1e138231a166e4918",
               "attributes": {
-                "name": "single2",
+                "name": "double1",
                 "params": {
                 }
               },
               "links": {
-                "self": "/nodes/5e4d8f04e138231a166e48e7"
+                "self": "/nodes/5e4e6bf1e138231a166e4918"
               },
               "relationships": {
                 "cluster": {
                   "links": {
-                    "self": "/nodes/5e4d8f04e138231a166e48e7/relationships/cluster",
-                    "related": "/nodes/5e4d8f04e138231a166e48e7/cluster"
+                    "self": "/nodes/5e4e6bf1e138231a166e4918/relationships/cluster",
+                    "related": "/nodes/5e4e6bf1e138231a166e4918/cluster"
                   }
                 },
                 "groups": {
                   "links": {
-                    "self": "/nodes/5e4d8f04e138231a166e48e7/relationships/groups",
-                    "related": "/nodes/5e4d8f04e138231a166e48e7/groups"
+                    "self": "/nodes/5e4e6bf1e138231a166e4918/relationships/groups",
+                    "related": "/nodes/5e4e6bf1e138231a166e4918/groups"
                   }
                 },
                 "cascades": {
                   "links": {
-                    "self": "/nodes/5e4d8f04e138231a166e48e7/relationships/cascades",
-                    "related": "/nodes/5e4d8f04e138231a166e48e7/cascades"
+                    "self": "/nodes/5e4e6bf1e138231a166e4918/relationships/cascades",
+                    "related": "/nodes/5e4e6bf1e138231a166e4918/cascades"
                   }
                 }
               }
             },
             {
               "type": "nodes",
-              "id": "5e4d8f04e138231a166e48e8",
+              "id": "5e4e6bf1e138231a166e4919",
+              "attributes": {
+                "name": "double2",
+                "params": {
+                }
+              },
+              "links": {
+                "self": "/nodes/5e4e6bf1e138231a166e4919"
+              },
+              "relationships": {
+                "cluster": {
+                  "links": {
+                    "self": "/nodes/5e4e6bf1e138231a166e4919/relationships/cluster",
+                    "related": "/nodes/5e4e6bf1e138231a166e4919/cluster"
+                  }
+                },
+                "groups": {
+                  "links": {
+                    "self": "/nodes/5e4e6bf1e138231a166e4919/relationships/groups",
+                    "related": "/nodes/5e4e6bf1e138231a166e4919/groups"
+                  }
+                },
+                "cascades": {
+                  "links": {
+                    "self": "/nodes/5e4e6bf1e138231a166e4919/relationships/cascades",
+                    "related": "/nodes/5e4e6bf1e138231a166e4919/cascades"
+                  }
+                }
+              }
+            },
+            {
+              "type": "nodes",
+              "id": "5e4e6bf1e138231a166e491a",
               "attributes": {
                 "name": "param_test",
                 "params": {
@@ -106,32 +138,32 @@ http_interactions:
                 }
               },
               "links": {
-                "self": "/nodes/5e4d8f04e138231a166e48e8"
+                "self": "/nodes/5e4e6bf1e138231a166e491a"
               },
               "relationships": {
                 "cluster": {
                   "links": {
-                    "self": "/nodes/5e4d8f04e138231a166e48e8/relationships/cluster",
-                    "related": "/nodes/5e4d8f04e138231a166e48e8/cluster"
+                    "self": "/nodes/5e4e6bf1e138231a166e491a/relationships/cluster",
+                    "related": "/nodes/5e4e6bf1e138231a166e491a/cluster"
                   }
                 },
                 "groups": {
                   "links": {
-                    "self": "/nodes/5e4d8f04e138231a166e48e8/relationships/groups",
-                    "related": "/nodes/5e4d8f04e138231a166e48e8/groups"
+                    "self": "/nodes/5e4e6bf1e138231a166e491a/relationships/groups",
+                    "related": "/nodes/5e4e6bf1e138231a166e491a/groups"
                   }
                 },
                 "cascades": {
                   "links": {
-                    "self": "/nodes/5e4d8f04e138231a166e48e8/relationships/cascades",
-                    "related": "/nodes/5e4d8f04e138231a166e48e8/cascades"
+                    "self": "/nodes/5e4e6bf1e138231a166e491a/relationships/cascades",
+                    "related": "/nodes/5e4e6bf1e138231a166e491a/cascades"
                   }
                 }
               }
             },
             {
               "type": "nodes",
-              "id": "5e4d8f04e138231a166e48e9",
+              "id": "5e4e6bf1e138231a166e491b",
               "attributes": {
                 "name": "underscore_param_test",
                 "params": {
@@ -139,25 +171,25 @@ http_interactions:
                 }
               },
               "links": {
-                "self": "/nodes/5e4d8f04e138231a166e48e9"
+                "self": "/nodes/5e4e6bf1e138231a166e491b"
               },
               "relationships": {
                 "cluster": {
                   "links": {
-                    "self": "/nodes/5e4d8f04e138231a166e48e9/relationships/cluster",
-                    "related": "/nodes/5e4d8f04e138231a166e48e9/cluster"
+                    "self": "/nodes/5e4e6bf1e138231a166e491b/relationships/cluster",
+                    "related": "/nodes/5e4e6bf1e138231a166e491b/cluster"
                   }
                 },
                 "groups": {
                   "links": {
-                    "self": "/nodes/5e4d8f04e138231a166e48e9/relationships/groups",
-                    "related": "/nodes/5e4d8f04e138231a166e48e9/groups"
+                    "self": "/nodes/5e4e6bf1e138231a166e491b/relationships/groups",
+                    "related": "/nodes/5e4e6bf1e138231a166e491b/groups"
                   }
                 },
                 "cascades": {
                   "links": {
-                    "self": "/nodes/5e4d8f04e138231a166e48e9/relationships/cascades",
-                    "related": "/nodes/5e4d8f04e138231a166e48e9/cascades"
+                    "self": "/nodes/5e4e6bf1e138231a166e491b/relationships/cascades",
+                    "related": "/nodes/5e4e6bf1e138231a166e491b/cascades"
                   }
                 }
               }
@@ -171,7 +203,7 @@ http_interactions:
           ]
         }
     http_version: 
-  recorded_at: Thu, 20 Feb 2020 10:02:27 GMT
+  recorded_at: Thu, 20 Feb 2020 13:59:00 GMT
 - request:
     method: get
     uri: http://localhost:6301/nodes/test.param_test
@@ -204,7 +236,7 @@ http_interactions:
         {
           "data": {
             "type": "nodes",
-            "id": "5e4d8f04e138231a166e48e8",
+            "id": "5e4e6bf1e138231a166e491a",
             "attributes": {
               "name": "param_test",
               "params": {
@@ -213,25 +245,25 @@ http_interactions:
               }
             },
             "links": {
-              "self": "/nodes/5e4d8f04e138231a166e48e8"
+              "self": "/nodes/5e4e6bf1e138231a166e491a"
             },
             "relationships": {
               "cluster": {
                 "links": {
-                  "self": "/nodes/5e4d8f04e138231a166e48e8/relationships/cluster",
-                  "related": "/nodes/5e4d8f04e138231a166e48e8/cluster"
+                  "self": "/nodes/5e4e6bf1e138231a166e491a/relationships/cluster",
+                  "related": "/nodes/5e4e6bf1e138231a166e491a/cluster"
                 }
               },
               "groups": {
                 "links": {
-                  "self": "/nodes/5e4d8f04e138231a166e48e8/relationships/groups",
-                  "related": "/nodes/5e4d8f04e138231a166e48e8/groups"
+                  "self": "/nodes/5e4e6bf1e138231a166e491a/relationships/groups",
+                  "related": "/nodes/5e4e6bf1e138231a166e491a/groups"
                 }
               },
               "cascades": {
                 "links": {
-                  "self": "/nodes/5e4d8f04e138231a166e48e8/relationships/cascades",
-                  "related": "/nodes/5e4d8f04e138231a166e48e8/cascades"
+                  "self": "/nodes/5e4e6bf1e138231a166e491a/relationships/cascades",
+                  "related": "/nodes/5e4e6bf1e138231a166e491a/cascades"
                 }
               }
             }
@@ -244,7 +276,7 @@ http_interactions:
           ]
         }
     http_version: 
-  recorded_at: Thu, 20 Feb 2020 10:02:27 GMT
+  recorded_at: Thu, 20 Feb 2020 13:59:00 GMT
 - request:
     method: get
     uri: http://localhost:6301/nodes/test.underscore_param_test
@@ -277,7 +309,7 @@ http_interactions:
         {
           "data": {
             "type": "nodes",
-            "id": "5e4d8f04e138231a166e48e9",
+            "id": "5e4e6bf1e138231a166e491b",
             "attributes": {
               "name": "underscore_param_test",
               "params": {
@@ -285,25 +317,25 @@ http_interactions:
               }
             },
             "links": {
-              "self": "/nodes/5e4d8f04e138231a166e48e9"
+              "self": "/nodes/5e4e6bf1e138231a166e491b"
             },
             "relationships": {
               "cluster": {
                 "links": {
-                  "self": "/nodes/5e4d8f04e138231a166e48e9/relationships/cluster",
-                  "related": "/nodes/5e4d8f04e138231a166e48e9/cluster"
+                  "self": "/nodes/5e4e6bf1e138231a166e491b/relationships/cluster",
+                  "related": "/nodes/5e4e6bf1e138231a166e491b/cluster"
                 }
               },
               "groups": {
                 "links": {
-                  "self": "/nodes/5e4d8f04e138231a166e48e9/relationships/groups",
-                  "related": "/nodes/5e4d8f04e138231a166e48e9/groups"
+                  "self": "/nodes/5e4e6bf1e138231a166e491b/relationships/groups",
+                  "related": "/nodes/5e4e6bf1e138231a166e491b/groups"
                 }
               },
               "cascades": {
                 "links": {
-                  "self": "/nodes/5e4d8f04e138231a166e48e9/relationships/cascades",
-                  "related": "/nodes/5e4d8f04e138231a166e48e9/cascades"
+                  "self": "/nodes/5e4e6bf1e138231a166e491b/relationships/cascades",
+                  "related": "/nodes/5e4e6bf1e138231a166e491b/cascades"
                 }
               }
             }
@@ -316,5 +348,5 @@ http_interactions:
           ]
         }
     http_version: 
-  recorded_at: Thu, 20 Feb 2020 10:02:27 GMT
+  recorded_at: Thu, 20 Feb 2020 13:59:00 GMT
 recorded_with: VCR 5.0.0

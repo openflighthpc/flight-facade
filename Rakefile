@@ -40,8 +40,8 @@ task :'nodeattr:drop', [:url, :token] do |_, args|
                                                url_opts: { id: '.test' },
                                                includes: ['nodes', 'groups'])
 
-  cluster.nodes.each(&:delete)
   cluster.groups.each(&:delete)
+  cluster.nodes.each(&:delete)
   cluster.delete
 end
 
@@ -58,6 +58,16 @@ task :'nodeattr:setup', [:url, :token] do |_, args|
                                      name: name,
                                      cluster: cluster,
                                      level_params: attr[:params] || {})
+  end
+
+  FlightFacade::DemoCluster.groups_data.each do |name, attr|
+    nodes_data = (attr[:nodes] || []).map do |n|
+      FlightFacade::NodesRecord.new(id: "test.#{n}", connection: nil)
+    end
+    FlightFacade::GroupsRecord.create(connection: conn,
+                                      name: name,
+                                      cluster: cluster,
+                                      nodes: nodes_data)
   end
 end
 

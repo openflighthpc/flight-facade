@@ -29,8 +29,9 @@ module FlightFacade
   module DemoCluster
     def self.nodes_data
       {
-        'single1' => {},
-        'single2' => {},
+        'single' => {},
+        'double1' => {},
+        'double2' => {},
         'param_test' => {
           params: {
             'key1' => 'value1',
@@ -42,6 +43,14 @@ module FlightFacade
             '_underscored_key': 'this key should be removed'
           }
         }
+      }
+    end
+
+    def self.groups_data
+      {
+        'empty' => {},
+        'singles' => { nodes: ['single'] },
+        'doubles' => { nodes: ['double1', 'double2'] }
       }
     end
   end
