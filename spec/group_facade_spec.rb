@@ -160,6 +160,18 @@ RSpec.describe GroupFacade do
         expect(groups.map(&:name)).to contain_exactly(*demo_groups.keys)
       end
     end
+
+    describe '::find_by_name' do
+      let(:empty) { described_class.find_by_name('empty') }
+
+      it 'finds the group' do
+        expect(empty.name).to eq('empty')
+      end
+
+      it 'handles groups without any nodes' do
+        expect(empty.nodes).to be_empty
+      end
+    end
   end
 end
 

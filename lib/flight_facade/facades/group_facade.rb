@@ -105,6 +105,11 @@ module FlightFacade
         GroupsRecord.fetch_all(connection: connection, url: "/clusters/.#{cluster}/groups")
                     .map(&:to_model)
       end
+
+      def find_by_name(name)
+        GroupsRecord.fetch(connection: connection, url_opts: { id: "test.#{name}" })
+                    .to_model
+      end
     end
   end
 end
