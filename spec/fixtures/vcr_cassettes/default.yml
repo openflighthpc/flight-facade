@@ -491,7 +491,7 @@ http_interactions:
   recorded_at: Thu, 20 Feb 2020 14:02:03 GMT
 - request:
     method: get
-    uri: http://localhost:6301/groups/test.empty
+    uri: http://localhost:6301/groups/test.empty?include=nodes
     body:
       encoding: US-ASCII
       string: ''
@@ -514,7 +514,7 @@ http_interactions:
       Content-Type:
       - application/vnd.api+json
       Content-Length:
-      - '928'
+      - '958'
     body:
       encoding: UTF-8
       string: |-
@@ -542,7 +542,10 @@ http_interactions:
                 "links": {
                   "self": "/groups/5e4e6bf1e138231a166e491c/relationships/nodes",
                   "related": "/groups/5e4e6bf1e138231a166e491c/nodes"
-                }
+                },
+                "data": [
+
+                ]
               },
               "cascades": {
                 "links": {
@@ -560,5 +563,150 @@ http_interactions:
           ]
         }
     http_version: 
-  recorded_at: Thu, 20 Feb 2020 14:11:08 GMT
+  recorded_at: Thu, 20 Feb 2020 14:43:43 GMT
+- request:
+    method: get
+    uri: http://localhost:6301/groups/test.doubles?include=nodes
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/vnd.api+json
+      Content-Type:
+      - application/vnd.api+json
+      Authorization:
+      - "[REDACTED]"
+      User-Agent:
+      - Faraday v0.17.3
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/vnd.api+json
+      Content-Length:
+      - '2940'
+    body:
+      encoding: UTF-8
+      string: |-
+        {
+          "data": {
+            "type": "groups",
+            "id": "5e4e6bf1e138231a166e491e",
+            "attributes": {
+              "name": "doubles",
+              "priority": 300,
+              "params": {
+              }
+            },
+            "links": {
+              "self": "/groups/5e4e6bf1e138231a166e491e"
+            },
+            "relationships": {
+              "cluster": {
+                "links": {
+                  "self": "/groups/5e4e6bf1e138231a166e491e/relationships/cluster",
+                  "related": "/groups/5e4e6bf1e138231a166e491e/cluster"
+                }
+              },
+              "nodes": {
+                "links": {
+                  "self": "/groups/5e4e6bf1e138231a166e491e/relationships/nodes",
+                  "related": "/groups/5e4e6bf1e138231a166e491e/nodes"
+                },
+                "data": [
+                  {
+                    "type": "nodes",
+                    "id": "5e4e6bf1e138231a166e4918"
+                  },
+                  {
+                    "type": "nodes",
+                    "id": "5e4e6bf1e138231a166e4919"
+                  }
+                ]
+              },
+              "cascades": {
+                "links": {
+                  "self": "/groups/5e4e6bf1e138231a166e491e/relationships/cascades",
+                  "related": "/groups/5e4e6bf1e138231a166e491e/cascades"
+                }
+              }
+            }
+          },
+          "jsonapi": {
+            "version": "1.0"
+          },
+          "included": [
+            {
+              "type": "nodes",
+              "id": "5e4e6bf1e138231a166e4918",
+              "attributes": {
+                "name": "double1",
+                "params": {
+                }
+              },
+              "links": {
+                "self": "/nodes/5e4e6bf1e138231a166e4918"
+              },
+              "relationships": {
+                "cluster": {
+                  "links": {
+                    "self": "/nodes/5e4e6bf1e138231a166e4918/relationships/cluster",
+                    "related": "/nodes/5e4e6bf1e138231a166e4918/cluster"
+                  }
+                },
+                "groups": {
+                  "links": {
+                    "self": "/nodes/5e4e6bf1e138231a166e4918/relationships/groups",
+                    "related": "/nodes/5e4e6bf1e138231a166e4918/groups"
+                  }
+                },
+                "cascades": {
+                  "links": {
+                    "self": "/nodes/5e4e6bf1e138231a166e4918/relationships/cascades",
+                    "related": "/nodes/5e4e6bf1e138231a166e4918/cascades"
+                  }
+                }
+              }
+            },
+            {
+              "type": "nodes",
+              "id": "5e4e6bf1e138231a166e4919",
+              "attributes": {
+                "name": "double2",
+                "params": {
+                }
+              },
+              "links": {
+                "self": "/nodes/5e4e6bf1e138231a166e4919"
+              },
+              "relationships": {
+                "cluster": {
+                  "links": {
+                    "self": "/nodes/5e4e6bf1e138231a166e4919/relationships/cluster",
+                    "related": "/nodes/5e4e6bf1e138231a166e4919/cluster"
+                  }
+                },
+                "groups": {
+                  "links": {
+                    "self": "/nodes/5e4e6bf1e138231a166e4919/relationships/groups",
+                    "related": "/nodes/5e4e6bf1e138231a166e4919/groups"
+                  }
+                },
+                "cascades": {
+                  "links": {
+                    "self": "/nodes/5e4e6bf1e138231a166e4919/relationships/cascades",
+                    "related": "/nodes/5e4e6bf1e138231a166e4919/cascades"
+                  }
+                }
+              }
+            }
+          ]
+        }
+    http_version: 
+  recorded_at: Thu, 20 Feb 2020 14:43:43 GMT
 recorded_with: VCR 5.0.0

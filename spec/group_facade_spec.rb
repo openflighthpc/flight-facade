@@ -163,6 +163,7 @@ RSpec.describe GroupFacade do
 
     describe '::find_by_name' do
       let(:empty) { described_class.find_by_name('empty') }
+      let(:doubles) { described_class.find_by_name('doubles') }
 
       it 'finds the group' do
         expect(empty.name).to eq('empty')
@@ -170,6 +171,10 @@ RSpec.describe GroupFacade do
 
       it 'handles groups without any nodes' do
         expect(empty.nodes).to be_empty
+      end
+
+      it 'returns the nodes for the group' do
+        expect(doubles.nodes.map(&:name)).to contain_exactly(*demo_groups['doubles'][:nodes])
       end
     end
   end

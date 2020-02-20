@@ -70,8 +70,12 @@ module FlightFacade
     has_many  :nodes, class_name: 'FlightFacade::NodesRecord'
     has_one   :cluster, class_name: 'FlightFacade::ClustersRecord'
 
-    def to_model
-      Group.new(name: name)
+    def to_model(include_nodes: false)
+      if include_nodes
+        Group.new(name: name, nodes: nodes.map(&:to_model))
+      else
+        Group.new(name: name)
+      end
     end
   end
 

@@ -107,8 +107,8 @@ module FlightFacade
       end
 
       def find_by_name(name)
-        GroupsRecord.fetch(connection: connection, url_opts: { id: "test.#{name}" })
-                    .to_model
+        GroupsRecord.fetch(connection: connection, url_opts: { id: "test.#{name}" }, includes: ['nodes'])
+                    .to_model(include_nodes: true)
       end
     end
   end
