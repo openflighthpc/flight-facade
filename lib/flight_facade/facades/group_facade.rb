@@ -31,6 +31,12 @@ module FlightFacade
 
     module Base
       # Query for a Group object by its name alone
+      #
+      # The group MUST contain the associated nodes
+      #
+      # The returned nodes MAY differ from the results from NodeFacade.find_by_name
+      # It is the integrators responsibility to ensure they match.
+      #
       # @param name [String] the name of the group
       # @return [Group] the group object containing the nodes
       # @return [nil] if it could not resolve the name
@@ -40,6 +46,11 @@ module FlightFacade
 
       # Query for all the statically available groups. This method may not
       # include all the ephemeral groups available in `find_by_name`
+      #
+      # The group SHOULD NOT return the associated nodes by default
+      #
+      # The returned nodes MAY differ from the results from NodeFacade.find_by_name
+      # It is the integrators responsibility to ensure they match.
       #
       # @return [Array<Group>] the list of static groups
       def index_all
@@ -83,6 +94,16 @@ module FlightFacade
 
       def index_all
         []
+      end
+    end
+
+    define_facade('Upstream', Hashie::Dash) do
+      property :connection, requried: true
+      property :cluster,    required: true
+
+      def index_all
+        GroupsRecord.fetch_all(connection: connection, url: "/clusters/.#{cluster}/groups")
+                    .map(&:to_model)
       end
     end
   end

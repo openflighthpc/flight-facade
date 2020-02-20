@@ -137,5 +137,29 @@ RSpec.describe GroupFacade do
       end
     end
   end
+
+  context 'when in upstream mode' do
+    around(:all) do |example|
+      with_facade_dummies do
+        token = ENV['SPEC_JWT'] || ''
+        connection = FlightFacade::BaseRecord.build_connection('http://localhost:6301', token)
+
+        described_class.facade_instance = \
+          described_class::Upstream.new(connection: connection, cluster: 'test')
+
+        with_vcr { example.call }
+      end
+    end
+
+    let(:demo_groups) { FlightFacade::DemoCluster.groups_data }
+
+    describe '::index_all' do
+      let(:groups) { described_class.index_all }
+
+      it 'finds all the demo groups' do
+        expect(groups.map(&:name)).to contain_exactly(*demo_groups.keys)
+      end
+    end
+  end
 end
 
