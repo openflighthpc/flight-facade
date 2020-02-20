@@ -1,0 +1,320 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://localhost:6301/clusters/.test/nodes
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/vnd.api+json
+      Content-Type:
+      - application/vnd.api+json
+      Authorization:
+      - "[REDACTED]"
+      User-Agent:
+      - Faraday v0.17.3
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/vnd.api+json
+      Content-Length:
+      - '3784'
+    body:
+      encoding: UTF-8
+      string: |-
+        {
+          "data": [
+            {
+              "type": "nodes",
+              "id": "5e4d8f04e138231a166e48e6",
+              "attributes": {
+                "name": "single1",
+                "params": {
+                }
+              },
+              "links": {
+                "self": "/nodes/5e4d8f04e138231a166e48e6"
+              },
+              "relationships": {
+                "cluster": {
+                  "links": {
+                    "self": "/nodes/5e4d8f04e138231a166e48e6/relationships/cluster",
+                    "related": "/nodes/5e4d8f04e138231a166e48e6/cluster"
+                  }
+                },
+                "groups": {
+                  "links": {
+                    "self": "/nodes/5e4d8f04e138231a166e48e6/relationships/groups",
+                    "related": "/nodes/5e4d8f04e138231a166e48e6/groups"
+                  }
+                },
+                "cascades": {
+                  "links": {
+                    "self": "/nodes/5e4d8f04e138231a166e48e6/relationships/cascades",
+                    "related": "/nodes/5e4d8f04e138231a166e48e6/cascades"
+                  }
+                }
+              }
+            },
+            {
+              "type": "nodes",
+              "id": "5e4d8f04e138231a166e48e7",
+              "attributes": {
+                "name": "single2",
+                "params": {
+                }
+              },
+              "links": {
+                "self": "/nodes/5e4d8f04e138231a166e48e7"
+              },
+              "relationships": {
+                "cluster": {
+                  "links": {
+                    "self": "/nodes/5e4d8f04e138231a166e48e7/relationships/cluster",
+                    "related": "/nodes/5e4d8f04e138231a166e48e7/cluster"
+                  }
+                },
+                "groups": {
+                  "links": {
+                    "self": "/nodes/5e4d8f04e138231a166e48e7/relationships/groups",
+                    "related": "/nodes/5e4d8f04e138231a166e48e7/groups"
+                  }
+                },
+                "cascades": {
+                  "links": {
+                    "self": "/nodes/5e4d8f04e138231a166e48e7/relationships/cascades",
+                    "related": "/nodes/5e4d8f04e138231a166e48e7/cascades"
+                  }
+                }
+              }
+            },
+            {
+              "type": "nodes",
+              "id": "5e4d8f04e138231a166e48e8",
+              "attributes": {
+                "name": "param_test",
+                "params": {
+                  "key1": "value1",
+                  "key2": "value2"
+                }
+              },
+              "links": {
+                "self": "/nodes/5e4d8f04e138231a166e48e8"
+              },
+              "relationships": {
+                "cluster": {
+                  "links": {
+                    "self": "/nodes/5e4d8f04e138231a166e48e8/relationships/cluster",
+                    "related": "/nodes/5e4d8f04e138231a166e48e8/cluster"
+                  }
+                },
+                "groups": {
+                  "links": {
+                    "self": "/nodes/5e4d8f04e138231a166e48e8/relationships/groups",
+                    "related": "/nodes/5e4d8f04e138231a166e48e8/groups"
+                  }
+                },
+                "cascades": {
+                  "links": {
+                    "self": "/nodes/5e4d8f04e138231a166e48e8/relationships/cascades",
+                    "related": "/nodes/5e4d8f04e138231a166e48e8/cascades"
+                  }
+                }
+              }
+            },
+            {
+              "type": "nodes",
+              "id": "5e4d8f04e138231a166e48e9",
+              "attributes": {
+                "name": "underscore_param_test",
+                "params": {
+                  "_underscored_key": "this key should be removed"
+                }
+              },
+              "links": {
+                "self": "/nodes/5e4d8f04e138231a166e48e9"
+              },
+              "relationships": {
+                "cluster": {
+                  "links": {
+                    "self": "/nodes/5e4d8f04e138231a166e48e9/relationships/cluster",
+                    "related": "/nodes/5e4d8f04e138231a166e48e9/cluster"
+                  }
+                },
+                "groups": {
+                  "links": {
+                    "self": "/nodes/5e4d8f04e138231a166e48e9/relationships/groups",
+                    "related": "/nodes/5e4d8f04e138231a166e48e9/groups"
+                  }
+                },
+                "cascades": {
+                  "links": {
+                    "self": "/nodes/5e4d8f04e138231a166e48e9/relationships/cascades",
+                    "related": "/nodes/5e4d8f04e138231a166e48e9/cascades"
+                  }
+                }
+              }
+            }
+          ],
+          "jsonapi": {
+            "version": "1.0"
+          },
+          "included": [
+
+          ]
+        }
+    http_version: 
+  recorded_at: Thu, 20 Feb 2020 10:02:27 GMT
+- request:
+    method: get
+    uri: http://localhost:6301/nodes/test.param_test
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/vnd.api+json
+      Content-Type:
+      - application/vnd.api+json
+      Authorization:
+      - "[REDACTED]"
+      User-Agent:
+      - Faraday v0.17.3
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/vnd.api+json
+      Content-Length:
+      - '956'
+    body:
+      encoding: UTF-8
+      string: |-
+        {
+          "data": {
+            "type": "nodes",
+            "id": "5e4d8f04e138231a166e48e8",
+            "attributes": {
+              "name": "param_test",
+              "params": {
+                "key1": "value1",
+                "key2": "value2"
+              }
+            },
+            "links": {
+              "self": "/nodes/5e4d8f04e138231a166e48e8"
+            },
+            "relationships": {
+              "cluster": {
+                "links": {
+                  "self": "/nodes/5e4d8f04e138231a166e48e8/relationships/cluster",
+                  "related": "/nodes/5e4d8f04e138231a166e48e8/cluster"
+                }
+              },
+              "groups": {
+                "links": {
+                  "self": "/nodes/5e4d8f04e138231a166e48e8/relationships/groups",
+                  "related": "/nodes/5e4d8f04e138231a166e48e8/groups"
+                }
+              },
+              "cascades": {
+                "links": {
+                  "self": "/nodes/5e4d8f04e138231a166e48e8/relationships/cascades",
+                  "related": "/nodes/5e4d8f04e138231a166e48e8/cascades"
+                }
+              }
+            }
+          },
+          "jsonapi": {
+            "version": "1.0"
+          },
+          "included": [
+
+          ]
+        }
+    http_version: 
+  recorded_at: Thu, 20 Feb 2020 10:02:27 GMT
+- request:
+    method: get
+    uri: http://localhost:6301/nodes/test.underscore_param_test
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/vnd.api+json
+      Content-Type:
+      - application/vnd.api+json
+      Authorization:
+      - "[REDACTED]"
+      User-Agent:
+      - Faraday v0.17.3
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/vnd.api+json
+      Content-Length:
+      - '973'
+    body:
+      encoding: UTF-8
+      string: |-
+        {
+          "data": {
+            "type": "nodes",
+            "id": "5e4d8f04e138231a166e48e9",
+            "attributes": {
+              "name": "underscore_param_test",
+              "params": {
+                "_underscored_key": "this key should be removed"
+              }
+            },
+            "links": {
+              "self": "/nodes/5e4d8f04e138231a166e48e9"
+            },
+            "relationships": {
+              "cluster": {
+                "links": {
+                  "self": "/nodes/5e4d8f04e138231a166e48e9/relationships/cluster",
+                  "related": "/nodes/5e4d8f04e138231a166e48e9/cluster"
+                }
+              },
+              "groups": {
+                "links": {
+                  "self": "/nodes/5e4d8f04e138231a166e48e9/relationships/groups",
+                  "related": "/nodes/5e4d8f04e138231a166e48e9/groups"
+                }
+              },
+              "cascades": {
+                "links": {
+                  "self": "/nodes/5e4d8f04e138231a166e48e9/relationships/cascades",
+                  "related": "/nodes/5e4d8f04e138231a166e48e9/cascades"
+                }
+              }
+            }
+          },
+          "jsonapi": {
+            "version": "1.0"
+          },
+          "included": [
+
+          ]
+        }
+    http_version: 
+  recorded_at: Thu, 20 Feb 2020 10:02:27 GMT
+recorded_with: VCR 5.0.0

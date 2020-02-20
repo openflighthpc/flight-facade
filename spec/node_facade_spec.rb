@@ -132,7 +132,7 @@ RSpec.describe NodeFacade do
         described_class.facade_instance = \
           described_class::Upstream.new(connection: connection, cluster: 'test')
 
-        e.call
+        with_vcr { e.call }
       end
     end
 

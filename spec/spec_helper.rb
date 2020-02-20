@@ -27,8 +27,17 @@
 
 require "bundler/setup"
 require "flight_facade"
+require 'vcr'
 
 include FlightFacade
+
+VCR.configure do |config|
+  config.cassette_library_dir = 'spec/fixtures/vcr_cassettes'
+  config.hook_into :webmock
+  config.filter_sensitive_data('[REDACTED]') do |interaction|
+    interaction.request.headers['Authorization'].first
+  end
+end
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
@@ -55,6 +64,24 @@ RSpec.configure do |config|
     yield if block_given?
   ensure
     old_facades.each { |c, o| c.facade_instance = o }
+  end
+
+  def with_vcr(cassette = nil)
+    # NOTE: *READ ME FUTURE DEVS*
+    # The following line should be commented out *most of the time. This prevents VCR
+    # from making any new requests that it doesn't recognised. In theory, the app should
+    # make the same requests each time.
+    #
+    # * It is acceptable to uncomment the line when adding new specs IF you need to make
+    # a new request. However please comment it out once you are done
+    #
+    # @vcr_record_mode = :new_episodes
+
+    VCR.use_cassette(cassette || 'default',
+                     record: @vcr_record_mode || :once,
+                     allow_playback_repeats: true) do
+      yield if block_given?
+    end
   end
 end
 

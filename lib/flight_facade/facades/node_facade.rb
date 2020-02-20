@@ -33,6 +33,7 @@ module FlightFacade
 
     module Base
       # Query for a Node object by its name alone
+      # It MAY not return the associated groups
       # @param name [String] the name of the node
       # @return [Node, nil] the node object or nil if it could not resolve the name
       def find_by_name(name)
