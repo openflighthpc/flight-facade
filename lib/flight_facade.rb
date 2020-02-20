@@ -26,6 +26,8 @@
 #===============================================================================
 
 require "flight_facade/version"
+
 require 'flight_facade/models'
+require 'flight_facade/records'
 require 'flight_facade/facades'
 

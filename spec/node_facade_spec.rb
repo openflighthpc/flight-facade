@@ -28,6 +28,7 @@
 #===============================================================================
 
 require 'spec_helper'
+require_relative 'fixtures/demo_cluster'
 
 RSpec.describe NodeFacade::Standalone do
   it 'strips the __meta__ key from its list' do
@@ -119,6 +120,56 @@ RSpec.describe NodeFacade do
       it 'returns the correctly named nodes' do
         expect(subject.map(&:name)).to contain_exactly(*nodes_data.keys.map(&:to_s))
       end
+    end
+  end
+
+  context 'when in upstream mode' do
+    around do |e|
+      with_facade_dummies do
+        token = ENV['SPEC_JWT'] || ''
+        connection = FlightFacade::BaseRecord.build_connection('http://localhost:6301', token)
+
+        described_class.facade_instance = \
+          described_class::Upstream.new(connection: connection, cluster: 'test')
+
+        with_vcr { e.call }
+      end
+    end
+
+    let(:demo_nodes) { FlightFacade::DemoCluster.nodes_data }
+
+    shared_examples 'nodes integration tests' do
+      it 'correctly sets the params' do
+        expect(param_test_node.params).to match(demo_nodes['param_test'][:params])
+      end
+
+      it 'removes underscored params' do
+        expect(underscore_param_test_node.params).to be_a(Hash)
+        expect(underscore_param_test_node.params).to be_empty
+      end
+    end
+
+    describe '::index_all' do
+      let(:nodes) { described_class.index_all }
+      let(:param_test_node) { nodes.find { |n| n.name == 'param_test' } }
+      let(:underscore_param_test_node) do
+        nodes.find { |n| n.name == 'underscore_param_test' }
+      end
+
+      it 'finds all the demo nodes' do
+        expect(nodes.map(&:name)).to contain_exactly(*demo_nodes.keys)
+      end
+
+      include_examples 'nodes integration tests'
+    end
+
+    describe '::find_by_name' do
+      let(:param_test_node) { described_class.find_by_name('param_test') }
+      let(:underscore_param_test_node) do
+        described_class.find_by_name('underscore_param_test')
+      end
+
+      include_examples 'nodes integration tests'
     end
   end
 end

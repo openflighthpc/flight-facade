@@ -25,7 +25,34 @@
 # https://github.com/openflighthpc/flight_facade
 #===============================================================================
 
-require 'flight_facade/has_facade'
-require 'flight_facade/facades/group_facade'
-require 'flight_facade/facades/node_facade'
+module FlightFacade
+  module DemoCluster
+    def self.nodes_data
+      {
+        'single' => {},
+        'double1' => {},
+        'double2' => {},
+        'param_test' => {
+          params: {
+            'key1' => 'value1',
+            'key2' => 'value2'
+          }
+        },
+        'underscore_param_test' => {
+          params: {
+            '_underscored_key': 'this key should be removed'
+          }
+        }
+      }
+    end
+
+    def self.groups_data
+      {
+        'empty' => {},
+        'singles' => { nodes: ['single'] },
+        'doubles' => { nodes: ['double1', 'double2'] }
+      }
+    end
+  end
+end
 
