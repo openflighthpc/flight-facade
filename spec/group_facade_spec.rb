@@ -75,7 +75,7 @@ RSpec.describe GroupFacade do
     describe '::find_by_name' do
       context 'with a stubbed NodeFacade that returns Node objects' do
         before do
-          allow(NodeFacade).to receive(:find_by_name).and_wrap_original do |_, name|
+          allow(FlightFacade::Facades::NodeFacade).to receive(:find_by_name).and_wrap_original do |_, name|
             FlightFacade::Models::Node.new(name: name, params: {})
           end
         end
@@ -107,7 +107,7 @@ RSpec.describe GroupFacade do
 
       context 'with a stubbed NodeFacade that returns nil' do
         before do
-          allow(NodeFacade).to receive(:find_by_name).and_return(nil)
+          allow(FlightFacade::Facades::NodeFacade).to receive(:find_by_name).and_return(nil)
         end
 
         let(:node_names) { ['node1', 'node2'] }

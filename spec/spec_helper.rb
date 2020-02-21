@@ -29,6 +29,8 @@ require "bundler/setup"
 require "flight_facade"
 require 'vcr'
 
+require_relative 'fixtures/demo_cluster'
+
 include FlightFacade
 
 VCR.configure do |config|
@@ -50,7 +52,8 @@ RSpec.configure do |config|
     c.syntax = :expect
   end
 
-  FACADE_CLASSES = [NodeFacade, GroupFacade]
+  FACADE_CLASSES = [
+    FlightFacade::Facades::NodeFacade, GroupFacade]
   def with_facade_dummies
     old_facades = FACADE_CLASSES.map do |klass|
       old = begin

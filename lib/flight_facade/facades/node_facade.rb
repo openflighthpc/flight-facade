@@ -28,63 +28,65 @@
 require 'hashie'
 
 module FlightFacade
-  module NodeFacade
-    include HasFacade
+  module Facades
+    module NodeFacade
+      include HasFacade
 
-    module Base
-      # Query for a Node object by its name alone
-      # It MAY not return the associated groups
-      # @param name [String] the name of the node
-      # @return [Node, nil] the node object or nil if it could not resolve the name
-      def find_by_name(name)
-        raise NotImplementedError
+      module Base
+        # Query for a Node object by its name alone
+        # It MAY not return the associated groups
+        # @param name [String] the name of the node
+        # @return [Node, nil] the node object or nil if it could not resolve the name
+        def find_by_name(name)
+          raise NotImplementedError
+        end
+
+        # Query for all the available nodes
+        # It MAY not return the associated groups
+        # @return [Array<Node>] the list of nodes
+        def index_all
+          raise NotImplementedError
+        end
       end
 
-      # Query for all the available nodes
-      # It MAY not return the associated groups
-      # @return [Array<Node>] the list of nodes
-      def index_all
-        raise NotImplementedError
-      end
-    end
+      define_facade('Dummy')
 
-    define_facade('Dummy')
+      define_facade('Standalone', Hash) do
+        include Hashie::Extensions::MergeInitializer
+        include Hashie::Extensions::IndifferentAccess
 
-    define_facade('Standalone', Hash) do
-      include Hashie::Extensions::MergeInitializer
-      include Hashie::Extensions::IndifferentAccess
+        def initialize(*_)
+          super
+          delete('__meta__')
+        end
 
-      def initialize(*_)
-        super
-        delete('__meta__')
-      end
+        def find_by_name(input)
+          name = input.to_s
+          return nil unless key?(name)
+          data = self[name].symbolize_keys
+          ranks = data[:ranks] || []
+          params = data.reject { |k, _| k == :ranks }
+          Models::Node.new(name: name, params: params, ranks: ranks)
+        end
 
-      def find_by_name(input)
-        name = input.to_s
-        return nil unless key?(name)
-        data = self[name].symbolize_keys
-        ranks = data[:ranks] || []
-        params = data.reject { |k, _| k == :ranks }
-        Models::Node.new(name: name, params: params, ranks: ranks)
+        def index_all
+          keys.map { |k| find_by_name(k) }
+        end
       end
 
-      def index_all
-        keys.map { |k| find_by_name(k) }
-      end
-    end
+      define_facade('Upstream', Hashie::Dash) do
+        property :connection, requried: true
+        property :cluster,    required: true
 
-    define_facade('Upstream', Hashie::Dash) do
-      property :connection, requried: true
-      property :cluster,    required: true
+        def index_all
+          Records::NodesRecord.fetch_all(connection: connection, url: "/clusters/.#{cluster}/nodes")
+                              .map(&:to_model)
+        end
 
-      def index_all
-        Records::NodesRecord.fetch_all(connection: connection, url: "/clusters/.#{cluster}/nodes")
-                            .map(&:to_model)
-      end
-
-      def find_by_name(name)
-        Records::NodesRecord.fetch(connection: connection, url_opts: { id: "#{cluster}.#{name}" })
-                            .to_model
+        def find_by_name(name)
+          Records::NodesRecord.fetch(connection: connection, url_opts: { id: "#{cluster}.#{name}" })
+                              .to_model
+        end
       end
     end
   end

@@ -28,16 +28,15 @@
 #===============================================================================
 
 require 'spec_helper'
-require_relative 'fixtures/demo_cluster'
 
-RSpec.describe NodeFacade::Standalone do
+RSpec.describe FlightFacade::Facades::NodeFacade::Standalone do
   it 'strips the __meta__ key from its list' do
     facade = described_class.new(__meta__: 'data')
     expect(facade[:__meta__]).to be_nil
   end
 end
 
-RSpec.describe NodeFacade do
+RSpec.describe FlightFacade::Facades::NodeFacade do
   context 'when in an isolated standalone mode' do
     around do |e|
       with_facade_dummies do

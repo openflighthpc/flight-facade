@@ -88,7 +88,7 @@ module FlightFacade
       def find_by_name(name)
         node_names = self.class.explode_names(name)
         return nil if node_names.nil?
-        nodes = node_names.map { |n| NodeFacade.find_by_name(n) }.reject(&:nil?)
+        nodes = node_names.map { |n| Facades::NodeFacade.find_by_name(n) }.reject(&:nil?)
         Models::Group.new(name: name, nodes: nodes)
       end
 
