@@ -29,7 +29,7 @@
 
 require 'spec_helper'
 
-RSpec.describe GroupFacade::Exploding do
+RSpec.describe FlightFacade::Facades::GroupFacade::Exploding do
   describe '::explode_names' do
     [
       'n[', 'n]', 'n[]', 'n[1]', 'n[-]', 'n[1-]', 'n[-1]', 'n[a-1]', 'n[1-a]', 'n0,n[', '[1-2]'
@@ -63,11 +63,11 @@ RSpec.describe GroupFacade::Exploding do
   end
 end
 
-RSpec.describe GroupFacade do
+RSpec.describe FlightFacade::Facades::GroupFacade do
   context 'when in exploding mode' do
     around(:all) do |example|
       with_facade_dummies do
-        GroupFacade.facade_instance = described_class::Exploding.new
+        FlightFacade::Facades::GroupFacade.facade_instance = described_class::Exploding.new
         example.call
       end
     end
@@ -122,7 +122,8 @@ RSpec.describe GroupFacade do
 
       context 'when the name can not be exploded' do
         before do
-          allow(GroupFacade::Exploding).to receive(:explode_names).and_return(nil)
+          allow(FlightFacade::Facades::GroupFacade::Exploding).to \
+            receive(:explode_names).and_return(nil)
         end
 
         it 'returns nil' do

@@ -53,7 +53,9 @@ RSpec.configure do |config|
   end
 
   FACADE_CLASSES = [
-    FlightFacade::Facades::NodeFacade, GroupFacade]
+    FlightFacade::Facades::NodeFacade,
+    FlightFacade::Facades::GroupFacade
+  ]
   def with_facade_dummies
     old_facades = FACADE_CLASSES.map do |klass|
       old = begin
