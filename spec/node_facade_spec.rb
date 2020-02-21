@@ -127,7 +127,7 @@ RSpec.describe NodeFacade do
     around do |e|
       with_facade_dummies do
         token = ENV['SPEC_JWT'] || ''
-        connection = FlightFacade::BaseRecord.build_connection('http://localhost:6301', token)
+        connection = FlightFacade::Records.build_connection('http://localhost:6301', token)
 
         described_class.facade_instance = \
           described_class::Upstream.new(connection: connection, cluster: 'test')

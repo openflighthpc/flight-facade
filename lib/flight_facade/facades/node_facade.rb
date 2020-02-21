@@ -78,13 +78,13 @@ module FlightFacade
       property :cluster,    required: true
 
       def index_all
-        NodesRecord.fetch_all(connection: connection, url: "/clusters/.#{cluster}/nodes")
-                   .map(&:to_model)
+        Records::NodesRecord.fetch_all(connection: connection, url: "/clusters/.#{cluster}/nodes")
+                            .map(&:to_model)
       end
 
       def find_by_name(name)
-        NodesRecord.fetch(connection: connection, url_opts: { id: "#{cluster}.#{name}" })
-                   .to_model
+        Records::NodesRecord.fetch(connection: connection, url_opts: { id: "#{cluster}.#{name}" })
+                            .to_model
       end
     end
   end

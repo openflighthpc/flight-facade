@@ -30,7 +30,7 @@ require 'faraday'
 require 'faraday_middleware'
 
 module FlightFacade
-  class BaseRecord < SimpleJSONAPIClient::Base
+  module Records
     def self.build_connection(url, token)
       headers = {
         'Accept' => 'application/vnd.api+json',
@@ -45,45 +45,47 @@ module FlightFacade
       end
     end
 
-    def self.inherited(klass)
-      type = klass.name.split('::').last.chomp('Record').downcase
-      klass.const_set('COLLECTION_URL', "/#{type}")
-      klass.const_set('INDIVIDUAL_URL', "/#{type}/%{id}")
-      klass.const_set('TYPE', type)
-    end
-  end
-
-  class NodesRecord < BaseRecord
-    attributes :name, :params, :level_params
-
-    has_many  :groups, class_name: 'FlightFacade::GroupsRecord'
-    has_one   :cluster, class_name: 'FlightFacade::ClustersRecord'
-
-    def to_model
-      Node.new(name: name, params: params.reject { |k, _| k[0] == '_' })
-    end
-  end
-
-  class GroupsRecord < BaseRecord
-    attributes :name, :params, :level_params
-
-    has_many  :nodes, class_name: 'FlightFacade::NodesRecord'
-    has_one   :cluster, class_name: 'FlightFacade::ClustersRecord'
-
-    def to_model(include_nodes: false)
-      if include_nodes
-        Group.new(name: name, nodes: nodes.map(&:to_model))
-      else
-        Group.new(name: name)
+    class BaseRecord < SimpleJSONAPIClient::Base
+      def self.inherited(klass)
+        type = klass.name.split('::').last.chomp('Record').downcase
+        klass.const_set('COLLECTION_URL', "/#{type}")
+        klass.const_set('INDIVIDUAL_URL', "/#{type}/%{id}")
+        klass.const_set('TYPE', type)
       end
     end
-  end
 
-  class ClustersRecord < BaseRecord
-    attributes :name, :params, :level_params
+    class NodesRecord < BaseRecord
+      attributes :name, :params, :level_params
 
-    has_many  :groups, class_name: 'FlightFacade::GroupsRecord'
-    has_many  :nodes, class_name: 'FlightFacade::NodesRecord'
+      has_many  :groups, class_name: 'FlightFacade::Records::GroupsRecord'
+      has_one   :cluster, class_name: 'FlightFacade::Records::ClustersRecord'
+
+      def to_model
+        Node.new(name: name, params: params.reject { |k, _| k[0] == '_' })
+      end
+    end
+
+    class GroupsRecord < BaseRecord
+      attributes :name, :params, :level_params
+
+      has_many  :nodes, class_name: 'FlightFacade::Records::NodesRecord'
+      has_one   :cluster, class_name: 'FlightFacade::Records::ClustersRecord'
+
+      def to_model(include_nodes: false)
+        if include_nodes
+          Group.new(name: name, nodes: nodes.map(&:to_model))
+        else
+          Group.new(name: name)
+        end
+      end
+    end
+
+    class ClustersRecord < BaseRecord
+      attributes :name, :params, :level_params
+
+      has_many  :groups, class_name: 'FlightFacade::Records::GroupsRecord'
+      has_many  :nodes, class_name: 'FlightFacade::Records::NodesRecord'
+    end
   end
 end
 

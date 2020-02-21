@@ -102,13 +102,15 @@ module FlightFacade
       property :cluster,    required: true
 
       def index_all
-        GroupsRecord.fetch_all(connection: connection, url: "/clusters/.#{cluster}/groups")
+        Records::GroupsRecord.fetch_all(connection: connection, url: "/clusters/.#{cluster}/groups")
                     .map(&:to_model)
       end
 
       def find_by_name(name)
-        GroupsRecord.fetch(connection: connection, url_opts: { id: "test.#{name}" }, includes: ['nodes'])
-                    .to_model(include_nodes: true)
+        Records::GroupsRecord.fetch(connection: connection,
+                                    url_opts: { id: "test.#{name}" },
+                                    includes: ['nodes'])
+                             .to_model(include_nodes: true)
       end
     end
   end

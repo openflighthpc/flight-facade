@@ -34,11 +34,11 @@ task :default => :spec
 
 task :'nodeattr:drop', [:url, :token] do |_, args|
   require 'flight_facade'
-  conn = FlightFacade::BaseRecord.build_connection(args[:url], args[:token])
+  conn = FlightFacade::Records.build_connection(args[:url], args[:token])
 
-  cluster = FlightFacade::ClustersRecord.fetch(connection: conn,
-                                               url_opts: { id: '.test' },
-                                               includes: ['nodes', 'groups'])
+  cluster = FlightFacade::Records::ClustersRecord.fetch(connection: conn,
+                                                        url_opts: { id: '.test' },
+                                                        includes: ['nodes', 'groups'])
 
   cluster.groups.each(&:delete)
   cluster.nodes.each(&:delete)
@@ -49,25 +49,25 @@ task :'nodeattr:setup', [:url, :token] do |_, args|
   require 'flight_facade'
   require_relative 'spec/fixtures/demo_cluster.rb'
 
-  conn = FlightFacade::BaseRecord.build_connection(args[:url], args[:token])
+  conn = FlightFacade::Records.build_connection(args[:url], args[:token])
 
-  cluster = FlightFacade::ClustersRecord.create(connection: conn, name: 'test')
+  cluster = FlightFacade::Records::ClustersRecord.create(connection: conn, name: 'test')
 
   FlightFacade::DemoCluster.nodes_data.each do |name, attr|
-    FlightFacade::NodesRecord.create(connection: conn,
-                                     name: name,
-                                     cluster: cluster,
-                                     level_params: attr[:params] || {})
+    FlightFacade::Records::NodesRecord.create(connection: conn,
+                                              name: name,
+                                              cluster: cluster,
+                                              level_params: attr[:params] || {})
   end
 
   FlightFacade::DemoCluster.groups_data.each do |name, attr|
     nodes_data = (attr[:nodes] || []).map do |n|
-      FlightFacade::NodesRecord.new(id: "test.#{n}", connection: nil)
+      FlightFacade::Records::NodesRecord.new(id: "test.#{n}", connection: nil)
     end
-    FlightFacade::GroupsRecord.create(connection: conn,
-                                      name: name,
-                                      cluster: cluster,
-                                      nodes: nodes_data)
+    FlightFacade::Records::GroupsRecord.create(connection: conn,
+                                               name: name,
+                                               cluster: cluster,
+                                               nodes: nodes_data)
   end
 end
 
