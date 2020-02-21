@@ -86,7 +86,7 @@ RSpec.describe NodeFacade do
           subject { described_class.find_by_name(name) }
 
           it 'returns a a Node' do
-            expect(subject).to be_a(Node)
+            expect(subject).to be_a(FlightFacade::Models::Node)
           end
 
           it 'correctly names the node' do
@@ -114,7 +114,7 @@ RSpec.describe NodeFacade do
 
       it 'returns an array of Node objects' do
         expect(subject).to be_a(Array)
-        subject.each { |n| expect(n).to be_a(Node) }
+        subject.each { |n| expect(n).to be_a(FlightFacade::Models::Node) }
       end
 
       it 'returns the correctly named nodes' do

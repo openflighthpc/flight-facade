@@ -29,58 +29,60 @@ require 'hashie'
 require 'active_model'
 
 module FlightFacade
-  class BaseHashieDashModel
-    def self.inherited(klass)
-      data_class = Class.new(Hashie::Dash) do
-        include Hashie::Extensions::IgnoreUndeclared
-        include ActiveModel::Validations
+  module Models
+    class BaseHashieDashModel
+      def self.inherited(klass)
+        data_class = Class.new(Hashie::Dash) do
+          include Hashie::Extensions::IgnoreUndeclared
+          include ActiveModel::Validations
 
-        def self.method_added(m)
-          parent.delegate(m, to: :data)
+          def self.method_added(m)
+            parent.delegate(m, to: :data)
+          end
         end
+
+        klass.const_set('DataHash', data_class)
+        klass.delegate(*(ActiveModel::Validations.instance_methods - Object.methods), to: :data)
       end
 
-      klass.const_set('DataHash', data_class)
-      klass.delegate(*(ActiveModel::Validations.instance_methods - Object.methods), to: :data)
+      def self._jsonapi_serializer_class_name
+        @_jsonapi_serializer_class_name ||= name.split('::').last + 'Serializer'
+      end
+
+      def self._type
+        @_type ||= name.split('::').last.demodulize.tableize.dasherize
+      end
+
+      attr_reader :data
+
+      def initialize(*a)
+        @data = self.class::DataHash.new(*a)
+      end
+
+      def jsonapi_serializer_class_name
+        self.class._jsonapi_serializer_class_name
+      end
+
+      def type
+        self.class._type
+      end
     end
 
-    def self._jsonapi_serializer_class_name
-      @_jsonapi_serializer_class_name ||= name.split('::').last + 'Serializer'
+    class Node < BaseHashieDashModel
+      DataHash.class_exec do
+        include Hashie::Extensions::Dash::PropertyTranslation
+
+        property :name,   required: true
+        property :params, required: true
+        property :ranks,  default: [], transform_with: ->(v) { (v.dup << 'default').uniq }
+      end
     end
 
-    def self._type
-      @_type ||= name.split('::').last.demodulize.tableize.dasherize
-    end
-
-    attr_reader :data
-
-    def initialize(*a)
-      @data = self.class::DataHash.new(*a)
-    end
-
-    def jsonapi_serializer_class_name
-      self.class._jsonapi_serializer_class_name
-    end
-
-    def type
-      self.class._type
-    end
-  end
-
-  class Node < BaseHashieDashModel
-    DataHash.class_exec do
-      include Hashie::Extensions::Dash::PropertyTranslation
-
-      property :name,   required: true
-      property :params, required: true
-      property :ranks,  default: [], transform_with: ->(v) { (v.dup << 'default').uniq }
-    end
-  end
-
-  class Group < BaseHashieDashModel
-    DataHash.class_exec do
-      property  :name,  required: true
-      property  :nodes, default: []
+    class Group < BaseHashieDashModel
+      DataHash.class_exec do
+        property  :name,  required: true
+        property  :nodes, default: []
+      end
     end
   end
 end

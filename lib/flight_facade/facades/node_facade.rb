@@ -65,7 +65,7 @@ module FlightFacade
         data = self[name].symbolize_keys
         ranks = data[:ranks] || []
         params = data.reject { |k, _| k == :ranks }
-        Node.new(name: name, params: params, ranks: ranks)
+        Models::Node.new(name: name, params: params, ranks: ranks)
       end
 
       def index_all

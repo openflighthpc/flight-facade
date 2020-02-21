@@ -61,7 +61,7 @@ module FlightFacade
       has_one   :cluster, class_name: 'FlightFacade::Records::ClustersRecord'
 
       def to_model
-        Node.new(name: name, params: params.reject { |k, _| k[0] == '_' })
+        Models::Node.new(name: name, params: params.reject { |k, _| k[0] == '_' })
       end
     end
 
@@ -73,9 +73,9 @@ module FlightFacade
 
       def to_model(include_nodes: false)
         if include_nodes
-          Group.new(name: name, nodes: nodes.map(&:to_model))
+          Models::Group.new(name: name, nodes: nodes.map(&:to_model))
         else
-          Group.new(name: name)
+          Models::Group.new(name: name)
         end
       end
     end

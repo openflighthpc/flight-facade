@@ -76,7 +76,7 @@ RSpec.describe GroupFacade do
       context 'with a stubbed NodeFacade that returns Node objects' do
         before do
           allow(NodeFacade).to receive(:find_by_name).and_wrap_original do |_, name|
-            Node.new(name: name, params: {})
+            FlightFacade::Models::Node.new(name: name, params: {})
           end
         end
 
@@ -85,7 +85,7 @@ RSpec.describe GroupFacade do
         subject { described_class.find_by_name(name) }
 
         it 'returns a Group object' do
-          expect(subject).to be_a(Group)
+          expect(subject).to be_a(FlightFacade::Models::Group)
         end
 
         describe 'Group#nodes' do
@@ -95,7 +95,7 @@ RSpec.describe GroupFacade do
 
           it 'returns each node object as a Node' do
             subject.nodes.each do |node|
-              expect(node).to be_a(Node)
+              expect(node).to be_a(FlightFacade::Models::Node)
             end
           end
 
