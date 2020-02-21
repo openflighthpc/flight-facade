@@ -63,10 +63,8 @@ module FlightFacade
         def find_by_name(input)
           name = input.to_s
           return nil unless key?(name)
-          data = self[name].symbolize_keys
-          ranks = data[:ranks] || []
-          params = data.reject { |k, _| k == :ranks }
-          Models::Node.new(name: name, params: params, ranks: ranks)
+          params = self[name].symbolize_keys
+          Models::Node.new(name: name, params: params)
         end
 
         def index_all

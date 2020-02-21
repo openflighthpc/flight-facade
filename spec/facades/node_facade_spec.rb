@@ -96,10 +96,6 @@ RSpec.describe FlightFacade::Facades::NodeFacade do
             expect(subject.ranks).to eq(ranks)
           end
 
-          it 'strips the ranks from the parameters' do
-            expect(subject.params.keys).not_to include(:ranks)
-          end
-
           it 'sets the parameters' do
             expect(subject.params[:key]).to eq(name.to_s)
           end

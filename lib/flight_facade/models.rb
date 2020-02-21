@@ -74,7 +74,10 @@ module FlightFacade
 
         property :name,   required: true
         property :params, required: true
-        property :ranks,  default: [], transform_with: ->(v) { (v.dup << 'default').uniq }
+
+        def ranks
+          [*params[:ranks], 'default'].uniq
+        end
       end
     end
 
