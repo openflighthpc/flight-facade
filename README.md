@@ -25,7 +25,63 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+`FlightFacade` provides a set of interfaces that implement look up methods to `nodes` and `groups`. The two main interfaces are:
+* `FlightFacade::Facades::NodeFacade`
+* `FlightFacade::Facades::GroupFacade`
+
+These modules provide look up methods to the following models (respectively):
+* `FlightFacade::Models::Node`
+* `FlightFacade::Models::Group`
+
+Each of the facade modules needs to be configure with a `facade_instance`. The `facade_instance` implements the look up methods and generates the models. By using the facades, the calling application can be decoupled from the data source.
+
+### Configuring the Facades
+
+Before the facades modules can be used, they must be configured with a `facade_instance`. Failure to do so will result in an error being raised. This section will go through each of the implementations and how to configure them.
+
+The `facade_instances` must be set on each of the facade modules as follows:
+
+```
+FlightFacade::Facades::NodeFacade.facade_instance = <instance-of-node-facade>
+FlightFacade::Facades::GroupFacade.facade_instance = <instance-of-group-facade>
+```
+
+#### Node Facade: Standalone
+
+The first implementation for the `nodes` is `FlightFacade::Facades::NodeFacade::Standalone` which requires a static hash of node data. It is initialised by:
+
+```
+FlightFacade::Facades::NodeFacade::Standalone.new(<node-data-hash>)
+```
+
+The hash should be in the following format:
+
+```
+{
+  node1: {
+    key1: 'value1',
+    key2: 'value2',
+  },
+  node2: {
+    ranks: ['overridden1', 'overridden2'],
+    key1: 'value1'
+  },
+  <node-name-without-ranks>: {
+    <key>: <value>,
+    ...
+  },
+  <node-name-with-ranks>: {
+    ranks: [<array-of-ranks>],
+    <key>: <value>,
+    ...
+  },
+  ...
+}
+```
+
+### NOTES: FlightFacade::Models::Node
+
+WIP
 
 ## Development
 
