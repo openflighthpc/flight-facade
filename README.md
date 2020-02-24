@@ -21,7 +21,7 @@ Or install it yourself as:
 ## Compatibility
 
 `FlightFacade` integrates with external services via network requests and is compatible with:
-* `nodeattr-server` ~> 1.0
+* [nodeattr-server](https://github.com/openflighthpc/nodeattr-server) ~> 1.0
 
 ## Usage
 
@@ -48,7 +48,7 @@ FlightFacade::Facades::GroupFacade.facade_instance = <instance-of-group-facade>
 
 #### Node Facade: Standalone
 
-The first implementation for the `nodes` is `FlightFacade::Facades::NodeFacade::Standalone` which requires a static hash of node data. It is initialised by:
+The primary implementation for the `nodes` is `FlightFacade::Facades::NodeFacade::Standalone` which requires a static hash of node data. It is initialised by:
 
 ```
 FlightFacade::Facades::NodeFacade::Standalone.new(<node-data-hash>)
@@ -66,18 +66,80 @@ The hash should be in the following format:
     ranks: ['overridden1', 'overridden2'],
     key1: 'value1'
   },
-  <node-name-without-ranks>: {
-    <key>: <value>,
-    ...
-  },
-  <node-name-with-ranks>: {
-    ranks: [<array-of-ranks>],
+  <node-name>: {
     <key>: <value>,
     ...
   },
   ...
 }
 ```
+
+As the hash is static, it can not be changed once the facade has been initialized. This means any changes to the node data will likely require the application to be rebooted (depending on implementation).
+
+#### Node Facade: Upstream
+
+The `nodes` may also be integrated with an upstream `nodeattr-server` by using `FlightFacade::Facades::NodeFacade::Upstream`. This the nodes to be dynamically created and modified through the [nodeattr client](https://github.com/openflighthpc/nodeattr-client). All the facade methods make a single request each time they are called. This means the application does not need to be restarted after a node is modified.
+
+The upstream `params` attribute for each `node` is used as a substitute to the parameters keys set in standalone mode.
+
+The facade must be initialized with the `url`, access token, and cluster name:
+**NOTE**: The facade should be given a `user` token as it does not modify the upstream resources.
+
+```
+conn = FlightFacade::Records.build_connection(<nodeattr-url>, <access-token>)
+FlightFacade::Facades::NodeFacade::Upstream.new(connection: conn, cluster: <cluster-name>)
+```
+
+#### Group Facade: Exploding
+
+The `primary` facade for `groups` is `FlightFacade::Facades::GroupFacade::Exploding`. This provides basic `group` name expansion into a list of `nodes`. It does not require any specific configuration and will delegate to `FlightFacade::Facades::NodeFacade` for the `node` data:
+
+```
+FlightFacade::Facade::GroupFacade::Exploding.new
+```
+
+The name expansion supports both comma separated lists and range expansions. The indices of a range expansion can be padded with zeros by including them as trailing characters in the name:
+
+```
+# Expanding a comma separated list
+FlightFacade::Facades::GroupFacade::Exploding.expand_names('node1,slave1,gpu1')
+=> ['node1', 'slave1', 'gpu1']
+
+# Expanding a range expression
+FlightFacade::Facades::GroupFacade::Exploding.expand_names('node[0-10]')
+=> ['node0', 'node1', 'node2', ..., 'node9', 'node10']
+
+# Expanding a range expression with padding
+FlightFacade::Facades::GroupFacade::Exploding.expand_names('node00[0-1000]')
+=> ['node000', 'node001', ..., 'node010', 'node011', ..., 'node100', 'node101', ..., 'node999', 'node1000']
+
+# Expanding a range expression with higher digit padding
+FlightFacade::Facades::GroupFacade::Exploding.expand_names('node0[10-100]')
+=> ['node010', 'node011', ..., 'node099', 'node100']
+
+# Incorrectly padding a range expression (padding within the brackets is ignored)
+FlightFacade::Facades::GroupFacade::Exploding.expand_names('node[001-100]')
+=> ['node1', 'node2', ..., 'node99', 'node100']
+
+# Combining range expressions with a comma seperated list
+FlightFacade::Facades::GroupFacade::Exploding.expand_names('node[1-5],node0[7-8],node10')
+=> ['node1', 'node2', 'node3', 'node4', 'node5', 'node07', 'node08', 'node10']
+
+# Removes duplicates
+FlightFacade::Facades::GroupFacade::Exploding.expand_names('node[1-2],node1')
+=> ['node1', 'node2']
+```
+
+#### Group Facade: Upstream
+
+The `groups` may also be integrated with an upstream `nodeattr-server` by using `FlightFacade::Facades::GroupFacade::Upstream`. It is both dynamic and initialized in the same manner as the `node` version:
+
+```
+conn = FlightFacade::Records.build_connection(<nodeattr-url>, <access-token>)
+FlightFacade::Facades::GroupFacade::Upstream.new(connection: conn, cluster: <cluster-name>)
+```
+
+To cut down on requests to the remote server, the `groups` may side load the `node` data within the same request. This means the group upstream mode must be used in conjunction with the node upstream mode. Failure to do this will lead to inconsistencies between the `NodeFacade` and `GroupFacade`.
 
 ### NOTES: FlightFacade::Models::Node
 
