@@ -31,7 +31,7 @@ require 'faraday_middleware'
 
 module FlightFacade
   module Records
-    def self.build_connection(url, token)
+    def self.build_connection(url, token, logger: nil)
       headers = {
         'Accept' => 'application/vnd.api+json',
         'Content-Type' => 'application/vnd.api+json',
@@ -39,6 +39,12 @@ module FlightFacade
       }
 
       Faraday.new(url: url, headers: headers) do |conn|
+        if logger
+          conn.use Faraday::Response::Logger, logger, { bodies: true } do |log|
+            log.filter(/(Authorization:)(.*)/, '\1 [REDACTED]')
+          end
+        end
+
         conn.request :json
         conn.response :json, :content_type => /\bjson$/
         conn.adapter :net_http
