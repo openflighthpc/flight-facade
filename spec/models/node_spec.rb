@@ -36,9 +36,15 @@ RSpec.describe FlightFacade::Models::Node do
       expect(node.ranks).to contain_exactly('default')
     end
 
-    it 'can be set from the params' do
+    it 'can be set from an array' do
       node = described_class.new(name: 'node', params: { ranks: other_ranks })
       expect(node.ranks).to eq([*other_ranks, 'default'])
+    end
+
+    it 'can be set from a value' do
+      other_rank = 'rank1'
+      node = described_class.new(name: 'node', params: { ranks: other_rank })
+      expect(node.ranks).to eq([other_rank, 'default'])
     end
 
     it 'removes duplicate ranks' do

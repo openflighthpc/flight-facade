@@ -143,7 +143,37 @@ To cut down on requests to the remote server, the `groups` may side load the `no
 
 ### NOTES: FlightFacade::Models::Node
 
-WIP
+Each of the `NodeFacade` implementations will poll for a `node` based on its `name` and return an associated set of "parameters". The "parameters" are key value pairs and are used to provide both the regular `params` and special keys to the `FlightFacade::Models::Node`.
+
+The `ranks` are a special key within `params` and is used to generate the property of the same name on `Flight::Models::Node`. The `params` are not modified by this translation and therefore should not match the model property. The "parameter ranks" is appended with the "default" rank before any duplicates are removed:
+
+```
+# If the ranks is not set
+node = FlightFacade::Facades::NodeFacade.find_by_name ...
+node.params[:ranks] # => nil
+node.ranks          # => ['default']
+
+# If the ranks is set to a value
+node = FlightFacade::Facades::NodeFacade.find_by_name ...
+node.params[:ranks] # => 'demo-rank'
+node.ranks          # => ['demo-rank', 'default']
+
+# If the ranks is set to an array
+node = FlightFacade::Facades::NodeFacade.find_by_name ...
+node.params[:ranks] # => ['rank1', 'rank2']
+node.ranks          # => ['rank1', 'rank2', 'default']
+
+# If there are duplicate ranks
+node = FlightFacade::Facades::NodeFacade.find_by_name ...
+node.params[:ranks] # => ['dup', 'other', 'dup']
+node.ranks          # => ['dup', 'other', 'default']
+
+# Incorrect use of the default rank
+# NOTE: Any feature that relies on "ranks" will implement a default. Therefore any further ranks are redundant
+node = FlightFacade::Facades::NodeFacade.find_by_name ...
+node.params[:ranks] # => ['default', 'redundant']
+node.ranks          # => ['default', 'redundant']
+```
 
 ## Development
 
